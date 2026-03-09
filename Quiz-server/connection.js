@@ -7,4 +7,4 @@ mongoose.connect(process.env.URI)
         console.log("Tip: Check if your IP address is whitelisted in MongoDB Atlas.");
     });
 
-module.exports = mongoose;
+// module.exports = mongoose;
