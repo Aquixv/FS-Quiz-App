@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import './Quiz.css';
 import Higuruma from '../assets/Higuruma.png'
 import Hesnotreading from '../assets/Not-reading.png'
@@ -7,16 +8,38 @@ import Regret from '../assets/Regret.png'
 import doesheknow from '../assets/doesheknow.png'
 import speed from '../assets/speed.jpg'
 
+
 const Quiz = ({ category, amount, difficulty }) => {
-    const navigate = useNavigate();
+    const location = useLocation();
+    const navigate = useNavigate(); 
+
     const [index, setIndex] = useState(() => {
-    const saved = localStorage.getItem('active_quiz');
-    return saved ? JSON.parse(saved).index : 0;
-});
+        const saved = localStorage.getItem('active_quiz');
+        return saved ? JSON.parse(saved).index : 0;
+    });
+
     const [data, setData] = useState(() => {
+    // 1. PRIORITIZE the quiz we just joined!
+    if (location.state?.customQuiz) {
+        // Clear the old storage so it doesn't conflict later
+        localStorage.removeItem('active_quiz'); 
+
+        return location.state.customQuiz.map(q => ({
+            ...q,
+            // Standardize the keys so the rest of the app doesn't break
+            question: q.questionText || q.question, 
+            correct_answer: q.correctAnswer || q.correct_answer,
+            answers: q.answers ? q.answers : [...q.incorrectAnswers, q.correctAnswer].sort(() => Math.random() - 0.5)
+        }));
+    }
+
+    // 2. Fallback to storage if no new quiz was joined
     const saved = localStorage.getItem('active_quiz');
-    return saved ? JSON.parse(saved).data : [];
+    if (saved) return JSON.parse(saved).data;
+    
+    return [];
 });
+    
     const [lock, setLock] = useState(false);
     const [score, setScore] = useState(0);
     const [result, setResult] = useState(false);
@@ -118,21 +141,22 @@ useEffect(() => {
     const feedback = getFeedback();
 
     const checkAnswer = (e, ans) => {
-        if (!lock) {
-            if (currentQuestion.correct_answer === ans) {
-                e.target.classList.add("correct");
-                setScore(prev => prev + 1);
-            } else {
-                e.target.classList.add("incorrect");
-                option_array.forEach(opt => {
-                    if (opt.current.innerText === decodeHTML(currentQuestion.correct_answer)) {
-                        opt.current.classList.add("correct");
-                    }
-                });
-            }
-            setLock(true);
+    if (!lock) {
+        const correct = decodeHTML(currentQuestion.correct_answer);
+        if (correct === ans) {
+            e.target.classList.add("correct");
+            setScore(prev => prev + 1);
+        } else {
+            e.target.classList.add("incorrect");
+            option_array.forEach(opt => {
+                if (opt.current.innerText === correct) {
+                    opt.current.classList.add("correct");
+                }
+            });
         }
-    };
+        setLock(true);
+    }
+};
 
     const next = () => {
         if (lock) {
@@ -170,11 +194,15 @@ useEffect(() => {
                 <>
                     <h2>{index + 1}. {decodeHTML(currentQuestion.question)}</h2>
                     <ul>
-                        {currentQuestion.answers.map((ans, i) => (
-                            <li key={i} ref={option_array[i]} onClick={(e) => checkAnswer(e, decodeHTML(ans))}>
-                                {decodeHTML(ans)}
-                            </li>
-                        ))}
+                        {currentQuestion && currentQuestion.answers ? 
+                        (currentQuestion.answers.map((ans, i) => (
+        <li key={i} ref={option_array[i]} onClick={(e) => checkAnswer(e, decodeHTML(ans))}>
+            {decodeHTML(ans)}
+        </li>
+    ))
+) : (
+    <p>Loading answers...</p>
+)}
                     </ul>
                     <button onClick={next}>Next</button>
                     <div className="index">{index + 1} of {data.length} questions</div>

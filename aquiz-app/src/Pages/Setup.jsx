@@ -5,6 +5,28 @@ import { useNavigate } from 'react-router-dom';
 const Setup = ({ setQuizSettings }) => {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+const [joinCode, setJoinCode] = useState('');
+const [isJoinVisible, setIsJoinVisible] = useState(false); // Controls the dropdown
+
+const handleJoinQuiz = async () => {
+    if (!joinCode.trim()) {
+        alert("Please enter a valid code!");
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:1500/api/quizzes/join/${joinCode}`);
+        const data = await response.json();
+
+        if (response.ok) {
+            navigate('/quiz', { state: { customQuiz: data.questions } });
+        } else {
+            alert(data.message || "Quiz not found!");
+        }
+    } catch (err) {
+        console.error("Join error:", err);
+    }
+};
   const [formData, setFormData] = useState({
     amount: 10,
     category: 9,
@@ -62,6 +84,49 @@ const Setup = ({ setQuizSettings }) => {
 
       <div className='buttons'>
         <button className='start-btn' onClick={handleStart}>Start Quiz</button>
+        <div className="join-container" style={{ width: '100%', marginTop: '10px' }}>
+    {/* Main Toggle Button */}
+    <button 
+        className='start-btn' 
+        onClick={() => setIsJoinVisible(!isJoinVisible)}
+        style={{ marginBottom: isJoinVisible ? '10px' : '0' }}
+    >
+        {isJoinVisible ? 'Cancel' : 'Join Custom Quiz'}
+    </button>
+
+    {isJoinVisible && (
+        <div className="join-dropdown" style={{ display: 'flex', gap: '10px', animation: 'fadeIn 0.3s' }}>
+            <input 
+                type="text" 
+                placeholder="Enter 6-digit code..." 
+                value={joinCode}
+                onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
+                style={{
+                    flex: 1,
+                    padding: '12px',
+                    borderRadius: '8px',
+                    border: '1px solid #553f9a',
+                    backgroundColor: '#fff',
+                    color: '#000'
+                }}
+            />
+            <button 
+                onClick={handleJoinQuiz}
+                style={{
+                    padding: '0 20px',
+                    backgroundColor: '#e2ff3d',
+                    color: '#1a0b2e',
+                    fontWeight: 'bold',
+                    borderRadius: '8px',
+                    cursor: 'pointer'
+                }}
+            >
+                JOIN
+            </button>
+        </div>
+    )}
+</div>
+        <button className='start-btn' onClick={() => navigate('/create')}>Create a custom Quiz </button>
         <button className='start-btn' onClick={() => navigate('/')}>Home</button>
       </div>
     </div>

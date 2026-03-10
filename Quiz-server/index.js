@@ -24,7 +24,6 @@ app.post('/api/quizzes', async (req, res) => {
             questions
         });
 
-        // This is where the save belongs!
         const savedQuiz = await newQuiz.save();
 
         res.status(201).json(savedQuiz); 
@@ -37,7 +36,19 @@ app.post('/api/quizzes', async (req, res) => {
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
-
+app.get('/api/quizzes/join/:code', async (req, res) => {
+    try {
+        const quiz = await Quiz.findOne({ joinCode: req.params.code.toUpperCase() });
+        
+        if (!quiz) {
+            return res.status(404).json({ message: "Quiz not found! Check your code." });
+        }
+        
+        res.json(quiz);
+    } catch (err) {
+        res.status(500).json({ error: "Server error during join." });
+    }
+});
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
