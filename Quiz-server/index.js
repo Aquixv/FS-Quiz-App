@@ -4,6 +4,8 @@ require('dotenv').config();
 require('./connection');
 const cors = require('cors');
 const Quiz = require('./models/Quiz');
+const Score = require('./models/Score');
+const User = require('./models/User');
 const { generateJoinCode } = require('./generator'); 
 
 app.use(cors());
@@ -11,7 +13,26 @@ app.use(express.json());
 
 const port = process.env.PORT || 1500; 
 
+app.post('/api/login', async (req, res) => {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username, password });
+    if (user) {
+        res.json({ username: user.username, id: user._id });
+    } else {
+        res.status(401).json({ error: "Invalid credentials." });
+    }
+});
 
+app.post('/api/signup', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const newUser = new User({ username, password });
+        await newUser.save();
+        res.status(201).json({ message: "User created!", user: { username: newUser.username } });
+    } catch (err) {
+        res.status(400).json({ error: "Username already taken." });
+    }
+});
 
 app.post('/api/quizzes', async (req, res) => {
     try {
@@ -33,9 +54,31 @@ app.post('/api/quizzes', async (req, res) => {
     }
 });
 
+app.post('/api/scores', async (req, res) => {
+    try {
+        const { quizId, username, score, totalQuestions } = req.body;
+        const newScore = new Score({ quizId, username, score, totalQuestions });
+        await newScore.save();
+        res.status(201).json({ message: "Score saved! 🏆" });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to save score." });
+    }
+});
+
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
+app.get('/api/scores/:quizId', async (req, res) => {
+    try {
+        const leaderboard = await Score.find({ quizId: req.params.quizId })
+            .sort({ score: -1 })
+            .limit(10);
+        res.json(leaderboard);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch leaderboard." });
+    }
+});
+
 app.get('/api/quizzes/join/:code', async (req, res) => {
     try {
         const quiz = await Quiz.findOne({ joinCode: req.params.code.toUpperCase() });
@@ -47,6 +90,16 @@ app.get('/api/quizzes/join/:code', async (req, res) => {
         res.json(quiz);
     } catch (err) {
         res.status(500).json({ error: "Server error during join." });
+    }
+});
+app.get('/api/users/leaderboard', async (req, res) => {
+    try {
+        const topUsers = await User.find()
+            .sort({ totalPoints: -1 })
+            .limit(10); 
+        res.json(topUsers);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch top users" });
     }
 });
 app.listen(port, () => {

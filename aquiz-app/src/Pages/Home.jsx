@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
+import AuthModal from './AuthModal';
 const Home = () => {
   const navigate = useNavigate();
   const [showAllCategories, setShowAllCategories] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user'))?.username || null);
+const [topUsers, setTopUsers] = useState([]);
+
+useEffect(() => {
+  const fetchTopScorers = async () => {
+    try {
+      const response = await fetch('http://localhost:1500/api/users/leaderboard');
+      const data = await response.json();
+      setTopUsers(data); 
+    } catch (err) {
+      console.error("Couldn't fetch leaderboard");
+    }
+  };
+  fetchTopScorers();
+}, []);
 
   const categories = [
     { icon: 'science', label: 'Science' },
@@ -18,14 +35,34 @@ const Home = () => {
     <div className="bg-deep-purple text-lavender-light min-h-screen flex flex-col font-display">
       <div className="relative flex h-full w-full flex-col overflow-x-hidden">
         <header className="flex items-center bg-deep-purple/80 backdrop-blur-md p-4 sticky top-0 z-10 border-b border-glass-border">
-          <div className="text-electric-violet flex size-10 shrink-0 items-center justify-center rounded-lg bg-electric-violet/10">
-            <span className="material-symbols-outlined">menu</span>
-          </div>
-          <h2 className="text-white text-2xl md:text-4xl font-bold leading-tight tracking-tight flex-1 text-center">QuizMaster</h2>
-          <div className="size-10 flex items-center justify-center">
-            <span className="material-symbols-outlined text-electric-violet">notifications</span>
-          </div>
-        </header>
+
+  <div className="text-electric-violet flex size-10 shrink-0 items-center justify-center rounded-lg bg-electric-violet/10">
+    <span className="material-symbols-outlined">menu</span>
+  </div>
+
+  <h2 className="text-white text-2xl md:text-4xl font-bold leading-tight tracking-tight flex-1 text-center">
+    QuizMaster
+  </h2>
+
+  <div className="flex items-center gap-3">
+    {user ? (
+      <div className="flex flex-col items-end">
+        <span className="text-[10px] uppercase font-bold text-lavender-light/40">Player</span>
+        <span className="text-sm font-bold text-neon-yellow">@{user}</span>
+      </div>
+    ) : (
+      <button 
+        onClick={() => setIsAuthOpen(true)}
+        className="text-xs font-bold uppercase text-neon-yellow border border-neon-yellow/30 px-3 py-2 rounded-xl hover:bg-neon-yellow/10 transition-all"
+      >
+        Login
+      </button>
+    )}
+    <div className="size-10 flex items-center justify-center text-electric-violet">
+      <span className="material-symbols-outlined">notifications</span>
+    </div>
+  </div>
+</header>
 
         <main className="flex-1 pb-24">
           <section className="px-6 pt-8 pb-6 text-center">
@@ -92,23 +129,26 @@ const Home = () => {
                 <h3 className="text-lg font-bold text-white">Top Scorers</h3>
                 <span className="material-symbols-outlined text-neon-yellow">emoji_events</span>
               </div>
-              <div className="space-y-4">
-                {[
-                    { name: "Alex Rivera", pts: "12,450", rank: "#1", color: "text-neon-yellow" },
-                    { name: "Sarah Chen", pts: "11,920", rank: "#2", color: "text-electric-violet" }
-                ].map((user, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                        <div className="size-10 md:size-14 rounded-full bg-electric-violet/20 flex items-center justify-center overflow-hidden border border-white/10">
-                            <img alt={user.name} className="w-full h-full object-cover" src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`} />
-                        </div>
-                        <div className="flex-1">
-                            <p className="text-sm md:text-base font-bold text-white">{user.name}</p>
-                            <p className="text-xs md:text-sm text-lavender-light/50">{user.pts} pts</p>
-                        </div>
-                        <div className={`${user.color} font-bold text-sm md:text-lg`}>{user.rank}</div>
-                    </div>
-                ))}
-              </div>
+            <div className="space-y-4">
+  {topUsers.length > 0 ? (
+    topUsers.map((u, i) => (
+      <div key={i} className="flex items-center gap-3 group">
+        <div className="size-10 rounded-full bg-electric-violet/20 border border-white/10 overflow-hidden">
+          <img alt={u.username} src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${u.username}`} />
+        </div>
+        <div className="flex-1">
+          <p className="text-sm font-bold text-white">{u.username}</p>
+          <p className="text-xs text-lavender-light/50">{u.totalPoints.toLocaleString()} pts</p>
+        </div>
+        <div className={`font-bold ${i === 0 ? 'text-neon-yellow' : 'text-electric-violet'}`}>
+          #{i + 1}
+        </div>
+      </div>
+    ))
+  ) : (
+    <p className="text-sm text-lavender-light/30 text-center">No scores yet. Be the first!</p>
+  )}
+</div>
             </div>
           </section>
         </main>
@@ -130,8 +170,14 @@ const Home = () => {
           </div>
         </nav>
       </div>
+          <AuthModal 
+  isOpen={isAuthOpen} 
+  onClose={() => setIsAuthOpen(false)} 
+  onAuthSuccess={(username) => setUser(username)} 
+/>
     </div>
   );
+  
 };
 
 export default Home;

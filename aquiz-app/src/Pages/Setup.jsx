@@ -84,8 +84,7 @@ const handleJoinQuiz = async () => {
 
       <div className='buttons'>
         <button className='start-btn' onClick={handleStart}>Start Quiz</button>
-        <div className="join-container" style={{ width: '100%', marginTop: '10px' }}>
-    {/* Main Toggle Button */}
+        <div className="join-container" style={{ width: '250px', marginTop: '10px' }}>
     <button 
         className='start-btn' 
         onClick={() => setIsJoinVisible(!isJoinVisible)}
@@ -126,7 +125,7 @@ const handleJoinQuiz = async () => {
         </div>
     )}
 </div>
-        <button className='start-btn' onClick={() => navigate('/create')}>Create a custom Quiz </button>
+        <button className='start-btn' onClick={() => navigate('/create')}>Create Your Quiz </button>
         <button className='start-btn' onClick={() => navigate('/')}>Home</button>
       </div>
     </div>

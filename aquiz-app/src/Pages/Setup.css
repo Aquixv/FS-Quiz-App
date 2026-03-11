@@ -29,5 +29,10 @@
     outline: none;
 }
 .start-btn{
-align-self: center;
+align-items: center;
+}
+@media (max-width: 600px) {
+.join-container{
+width: 100% !important;
+}
 }
