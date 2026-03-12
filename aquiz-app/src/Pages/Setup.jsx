@@ -75,7 +75,7 @@ const handleJoinQuiz = async () => {
 
       <div className='settings-group'>
         <p>Select Category</p> 
-        <select name="category" className="category-select" onChange={handleChange}>
+        <select name="category" className="category-select quiz-select-dark" onChange={handleChange}>
           {categories.map((cat) => (
             <option key={cat.id} value={cat.id}>{cat.name}</option>
           ))}

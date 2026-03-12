@@ -160,7 +160,7 @@ useEffect(() => {
               <p className="text-[10px] font-bold uppercase tracking-wider">Home</p>
             </Link>
             <button className="flex flex-col items-center gap-1 text-lavender-light/40">
-              <span className="material-symbols-outlined">leaderboard</span>
+              <Link to="/leaderboard" className="material-symbols-outlined">leaderboard</Link>
               <p className="text-[10px] font-medium uppercase tracking-wider">Leaderboard</p>
             </button>
             <button className="flex flex-col items-center gap-1 text-lavender-light/40">

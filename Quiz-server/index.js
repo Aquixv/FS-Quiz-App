@@ -102,6 +102,34 @@ app.get('/api/users/leaderboard', async (req, res) => {
         res.status(500).json({ error: "Failed to fetch top users" });
     }
 });
+
+app.get('/api/leaderboard/:categoryId', async (req, res) => {
+    try {
+        const { categoryId } = req.params;
+        const topScores = await Score.find({ categoryId }) 
+            .sort({ score: -1 })
+            .limit(10)
+            .populate('userId', 'username'); 
+        res.json(topScores);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch leaderboard" });
+    }
+});
+
+app.get('/api/my-quizzes/leaderboard/:userId', async (req, res) => {
+    try {
+        const userQuizzes = await Quiz.find({ creatorId: req.params.userId }).select('_id');
+        const quizIds = userQuizzes.map(q => q._id);
+
+        const leaders = await Score.find({ quizId: { $in: quizIds } })
+            .sort({ score: -1 })
+            .limit(5);
+        res.json(leaders);
+    } catch (err) {
+        res.status(500).json({ error: "Error fetching your quiz leaders" });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
