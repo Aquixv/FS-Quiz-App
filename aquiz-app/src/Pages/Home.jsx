@@ -108,18 +108,18 @@ useEffect(() => {
   </button>
 </div>
             <div className={`grid grid-cols-3 gap-6 transition-all duration-500 overflow-hidden ${showAllCategories ? 'max-h-[1000px]' : 'max-h-[160px]'}`}>
-  {categories.map((cat, i) => (
-    <div key={i} className="flex flex-col items-center gap-3 mb-6 group cursor-pointer">
-      <div className="w-20 h-20 md:w-26 md:h-26 rounded-3xl bg-white/5 backdrop-blur-xl flex items-center justify-center text-electric-violet group-hover:bg-electric-violet/20 transition-all duration-300">
-        <span className="material-symbols-outlined !text-[40px] md:!text-[60px]">
-          {cat.icon}
-        </span>
-      </div>
-      <span className="text-sm md:text-lg font-bold text-lavender-light/90">
-        {cat.label}
-      </span>
+{categories.map((cat, i) => (
+  <div 
+    key={i} 
+    className="flex flex-col items-center gap-3 mb-6 group cursor-pointer"
+    onClick={() => navigate('/leaderboard', { state: { initialCategory: cat.id } })} // Link logic here
+  >
+    <div className="w-20 h-20 rounded-3xl bg-white/5 backdrop-blur-xl flex items-center justify-center text-electric-violet group-hover:bg-electric-violet/20 transition-all">
+      <span className="material-symbols-outlined !text-[40px]">{cat.icon}</span>
     </div>
-  ))}
+    <span className="text-sm font-bold text-lavender-light/90">{cat.label}</span>
+  </div>
+))}
 </div>
           </section>
 
