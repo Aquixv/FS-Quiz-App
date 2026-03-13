@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import './Leaderboard.css'
-import API_BASE_URL from './config'
+import API_BASE_URL from './config';
 
 const Leaderboard = () => {
 

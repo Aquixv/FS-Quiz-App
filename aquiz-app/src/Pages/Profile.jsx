@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import API_BASE_URL from './config'
+import API_BASE_URL from './config';
+
 const Profile = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
@@ -52,7 +53,7 @@ if (!localUser) {
 
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/users/${localUser.id}`);
+        const response = await fetch(`${API_BASE_URL}/api/users/${localUser.id}`)
         const data = await response.json();
         setUserData(data);
       } catch (err) {

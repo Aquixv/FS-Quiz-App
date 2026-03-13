@@ -7,7 +7,6 @@ import Hesnotreading from '../assets/Not-reading.png'
 import Regret from '../assets/Regret.png'
 import doesheknow from '../assets/doesheknow.png'
 import speed from '../assets/speed.jpg'
-import API_BASE_URL from './config'
 
 const Quiz = ({ category, amount, difficulty }) => {
     const location = useLocation();
