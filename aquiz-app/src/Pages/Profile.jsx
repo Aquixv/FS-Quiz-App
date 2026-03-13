@@ -74,6 +74,7 @@ if (!localUser) {
   if (!userData) return <div className="min-h-screen bg-deep-purple flex items-center justify-center text-white">Loading Profile...</div>;
 
   return (
+    <div>
     <div className="bg-deep-purple min-h-screen p-6 font-display text-lavender-light">
       <div className="max-w-md mx-auto pt-10">
         <div className="flex flex-col items-center mb-10">
@@ -111,7 +112,6 @@ if (!localUser) {
         <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5">
           <div>
             <p className="font-bold text-white text-sm">
-                {/* Fallback to 'API Quiz' if it wasn't a custom one */}
                 {item.quizId?.quizTitle || "General Category Quiz"}
             </p>
             <p className="text-[10px] text-lavender-light/40">
@@ -147,6 +147,7 @@ if (!localUser) {
             Logout
           </button>
         </div>
+      </div>
       </div>
       <nav className="fixed bottom-0 left-0 right-0 bg-deep-purple/80 backdrop-blur-xl border-t border-glass-border px-4 pb-6 pt-2 z-20">
           <div className="flex justify-around">
