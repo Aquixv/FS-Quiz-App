@@ -123,13 +123,32 @@ app.get('/api/my-quizzes/leaderboard/:userId', async (req, res) => {
 
         const leaders = await Score.find({ quizId: { $in: quizIds } })
             .sort({ score: -1 })
-            .limit(5);
+            .limit(10);
         res.json(leaders);
     } catch (err) {
         res.status(500).json({ error: "Error fetching your quiz leaders" });
     }
 });
 
+app.get('/api/users/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        res.json(user);
+    } catch (err) {
+        res.status(404).json({ error: "User not found" });
+    }
+});
+app.get('/api/scores/user/:userId', async (req, res) => {
+    try {
+        const history = await Score.find({ userId: req.params.userId })
+            .populate('quizId', 'quizTitle')
+            .sort({ createdAt: -1 }) 
+            .limit(10); 
+        res.json(history);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch history" });
+    }
+});
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

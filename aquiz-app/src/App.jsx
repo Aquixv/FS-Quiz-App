@@ -5,6 +5,7 @@ import Setup from './Pages/Setup'
 import Quiz from './Pages/Quiz'
 import CreateQuiz from './Pages/createQuiz';
 import Leaderboard from './Pages/Leaderboard';
+import Profile from './Pages/Profile';
 const App = () => {
   const [quizSettings, setQuizSettings] = useState({
   amount: 10,
@@ -20,6 +21,7 @@ return (
       <Route path="/quiz" element={<Quiz {...quizSettings} />} />
       <Route path="/create" element={<CreateQuiz />} />
       <Route path="/leaderboard" element={<Leaderboard />} />
+      <Route path="/profile" element={<Profile />} />
     </Routes>
   </BrowserRouter>
 );

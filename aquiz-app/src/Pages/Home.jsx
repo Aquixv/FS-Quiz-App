@@ -112,7 +112,7 @@ useEffect(() => {
   <div 
     key={i} 
     className="flex flex-col items-center gap-3 mb-6 group cursor-pointer"
-    onClick={() => navigate('/leaderboard', { state: { initialCategory: cat.id } })} // Link logic here
+    onClick={() => navigate('/leaderboard', { state: { initialCategory: cat.id } })} 
   >
     <div className="w-20 h-20 rounded-3xl bg-white/5 backdrop-blur-xl flex items-center justify-center text-electric-violet group-hover:bg-electric-violet/20 transition-all">
       <span className="material-symbols-outlined !text-[40px]">{cat.icon}</span>
@@ -160,12 +160,14 @@ useEffect(() => {
               <p className="text-[10px] font-bold uppercase tracking-wider">Home</p>
             </Link>
             <button className="flex flex-col items-center gap-1 text-lavender-light/40">
-              <Link to="/leaderboard" className="material-symbols-outlined">leaderboard</Link>
-              <p className="text-[10px] font-medium uppercase tracking-wider">Leaderboard</p>
+              <Link to="/leaderboard"><span className="material-symbols-outlined">leaderboard</span>
+              <p className="text-[10px] font-medium uppercase tracking-wider">Leaderboard</p></Link>
             </button>
             <button className="flex flex-col items-center gap-1 text-lavender-light/40">
+            <Link to="/profile">
               <span className="material-symbols-outlined">person</span>
               <p className="text-[10px] font-medium uppercase tracking-wider">Profile</p>
+              </Link>
             </button>
           </div>
         </nav>

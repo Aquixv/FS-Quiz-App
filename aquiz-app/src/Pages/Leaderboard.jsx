@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import './Leaderboard.css'
 
 const Leaderboard = () => {
@@ -74,6 +74,24 @@ useEffect(() => {
         </div>
       )}
     </div>
+    <nav className="fixed bottom-0 left-0 right-0 bg-deep-purple/80 backdrop-blur-xl border-t border-glass-border px-4 pb-6 pt-2 z-20">
+          <div className="flex justify-around">
+            <Link to="/" className="flex flex-col items-center gap-1 text-lavender-light/40">
+              <span className="material-symbols-outlined">home</span>
+              <p className="text-[10px] font-bold uppercase tracking-wider">Home</p>
+            </Link>
+            <button className="flex flex-col items-center gap-1 text-neon-yellow">
+              <Link to="/leaderboard"><span className="material-symbols-outlined">leaderboard</span>
+              <p className="text-[10px] font-medium uppercase tracking-wider">Leaderboard</p></Link>
+            </button>
+            <button className="flex flex-col items-center gap-1 text-lavender-light/40">
+            <Link to="/profile">
+              <span className="material-symbols-outlined">person</span>
+              <p className="text-[10px] font-medium uppercase tracking-wider">Profile</p>
+              </Link>
+            </button>
+          </div>
+        </nav>
   </div>
 );
 };
