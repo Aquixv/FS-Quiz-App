@@ -93,7 +93,7 @@ app.get('/api/quizzes/join/:code', async (req, res) => {
     }
 });
 app.use(cors({
-  origin: ["http://localhost:5173", "https://your-quiz-app.vercel.app"]
+  origin: ["http://localhost:5173", "quizmaster-cyan.vercel.app"]
 }));
 
 app.get('/api/users/leaderboard', async (req, res) => {
