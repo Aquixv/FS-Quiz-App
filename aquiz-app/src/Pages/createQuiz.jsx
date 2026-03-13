@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from './config'
 
 const CreateQuiz = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const CreateQuiz = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:1500/api/quizzes', {
+      const response = await fetch(`${API_BASE_URL}/api/quizzes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ quizTitle, questions }),
@@ -102,7 +103,6 @@ const CreateQuiz = () => {
                     <span className="material-symbols-outlined">delete</span>
                 </button>
             </div>
-            {/* ... rest of the inputs stay the same ... */}
             <input 
               className="w-full p-3 rounded-lg bg-deep-purple border border-glass-border"
               placeholder="Question Text"

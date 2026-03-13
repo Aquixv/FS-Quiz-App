@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import './Leaderboard.css'
+import API_BASE_URL from './config'
 
 const Leaderboard = () => {
 
@@ -23,7 +24,7 @@ useEffect(() => {
 useEffect(() => {
   const fetchScores = async () => {
     try {
-      const res = await fetch(`http://localhost:1500/api/leaderboard/${currentCategory}`);
+      const res = await fetch(`${API_BASE_URL}/api/leaderboard/${currentCategory}`);
       const data = await res.json();
       setScores(data);
     } catch (err) {

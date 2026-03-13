@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import API_BASE_URL from './config'
 
 const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -13,7 +14,7 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
     const endpoint = isLogin ? '/api/login' : '/api/signup';
     
     try {
-      const response = await fetch(`http://localhost:1500${endpoint}`, {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

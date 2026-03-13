@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './Setup.css';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from './config'
 
 const Setup = ({ setQuizSettings }) => {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 const [joinCode, setJoinCode] = useState('');
-const [isJoinVisible, setIsJoinVisible] = useState(false); // Controls the dropdown
+const [isJoinVisible, setIsJoinVisible] = useState(false); 
 
 const handleJoinQuiz = async () => {
     if (!joinCode.trim()) {
@@ -15,7 +16,7 @@ const handleJoinQuiz = async () => {
     }
 
     try {
-        const response = await fetch(`http://localhost:1500/api/quizzes/join/${joinCode}`);
+        const response = await fetch(`${API_BASE_URL}/api/quizzes/join/${joinCode}`);
         const data = await response.json();
 
         if (response.ok) {

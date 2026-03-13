@@ -92,6 +92,10 @@ app.get('/api/quizzes/join/:code', async (req, res) => {
         res.status(500).json({ error: "Server error during join." });
     }
 });
+app.use(cors({
+  origin: ["http://localhost:5173", "https://your-quiz-app.vercel.app"]
+}));
+
 app.get('/api/users/leaderboard', async (req, res) => {
     try {
         const topUsers = await User.find()
@@ -149,6 +153,10 @@ app.get('/api/scores/user/:userId', async (req, res) => {
         res.status(500).json({ error: "Failed to fetch history" });
     }
 });
+app.get('/health', (req, res) => {
+    res.status(200).send('Server is alive and kicking! 🚀');
+});
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

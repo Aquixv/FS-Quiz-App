@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-
+import API_BASE_URL from './config'
 const Profile = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
@@ -9,7 +9,7 @@ const Profile = () => {
 
 useEffect(() => {
     if (localUser) {
-        fetch(`http://localhost:1500/api/scores/user/${localUser.id}`)
+        fetch(`${API_BASE_URL}/api/scores/user/${localUser.id}`)
             .then(res => res.json())
             .then(data => setHistory(data));
     }
@@ -52,7 +52,7 @@ if (!localUser) {
 
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`http://localhost:1500/api/users/${localUser.id}`);
+        const response = await fetch(`${API_BASE_URL}/api/users/${localUser.id}`);
         const data = await response.json();
         setUserData(data);
       } catch (err) {

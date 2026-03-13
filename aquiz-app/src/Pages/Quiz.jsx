@@ -7,7 +7,7 @@ import Hesnotreading from '../assets/Not-reading.png'
 import Regret from '../assets/Regret.png'
 import doesheknow from '../assets/doesheknow.png'
 import speed from '../assets/speed.jpg'
-
+import API_BASE_URL from './config'
 
 const Quiz = ({ category, amount, difficulty }) => {
     const location = useLocation();
@@ -19,21 +19,20 @@ const Quiz = ({ category, amount, difficulty }) => {
     });
 
     const [data, setData] = useState(() => {
-    // 1. PRIORITIZE the quiz we just joined!
+
     if (location.state?.customQuiz) {
-        // Clear the old storage so it doesn't conflict later
+
         localStorage.removeItem('active_quiz'); 
 
         return location.state.customQuiz.map(q => ({
             ...q,
-            // Standardize the keys so the rest of the app doesn't break
+
             question: q.questionText || q.question, 
             correct_answer: q.correctAnswer || q.correct_answer,
             answers: q.answers ? q.answers : [...q.incorrectAnswers, q.correctAnswer].sort(() => Math.random() - 0.5)
         }));
     }
 
-    // 2. Fallback to storage if no new quiz was joined
     const saved = localStorage.getItem('active_quiz');
     if (saved) return JSON.parse(saved).data;
     
@@ -60,7 +59,6 @@ const Quiz = ({ category, amount, difficulty }) => {
     const option_array = [Option1, Option2, Option3, Option4];
 
     useEffect(() => {
-    // If we already have data (from localStorage), just stop loading and don't fetch!
     if (data.length > 0) {
         setLoading(false);
         return; 

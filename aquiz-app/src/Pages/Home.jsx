@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
 import AuthModal from './AuthModal';
+import API_BASE_URL from './config'
+
 const Home = () => {
   const navigate = useNavigate();
   const [showAllCategories, setShowAllCategories] = useState(false);
@@ -12,7 +14,7 @@ const [topUsers, setTopUsers] = useState([]);
 useEffect(() => {
   const fetchTopScorers = async () => {
     try {
-      const response = await fetch('http://localhost:1500/api/users/leaderboard');
+      const response = await fetch(`${API_BASE_URL}/api/users/leaderboard`);
       const data = await response.json();
       setTopUsers(data); 
     } catch (err) {
