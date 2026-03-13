@@ -8,3 +8,4 @@ mongoose.connect(process.env.URI)
     });
 
 module.exports = mongoose;
+//Must have 2 comms
