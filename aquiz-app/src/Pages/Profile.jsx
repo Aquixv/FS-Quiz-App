@@ -149,7 +149,7 @@ if (!localUser) {
         </div>
       </div>
       </div>
-      <nav className="fixed bottom-0 left-0 right-0 bg-deep-purple/80 backdrop-blur-xl border-t border-glass-border px-4 pb-6 pt-2 z-20">
+      {/* <nav className="fixed bottom-0 left-0 right-0 bg-deep-purple/80 backdrop-blur-xl border-t border-glass-border px-4 pb-6 pt-2 z-20">
           <div className="flex justify-around">
             <Link to="/" className="flex flex-col items-center gap-1 text-lavender-light/40">
               <span className="material-symbols-outlined">home</span>
@@ -166,7 +166,7 @@ if (!localUser) {
               </Link>
             </button>
           </div>
-        </nav>
+        </nav> */}
     </div>
   );
 };
