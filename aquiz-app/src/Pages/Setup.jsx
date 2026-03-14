@@ -99,10 +99,10 @@ const handleJoinQuiz = async () => {
             <input 
                 type="text" 
                 placeholder="Enter 6-digit code..." 
-                className='quiz-code-input'
                 value={joinCode}
                 onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
                 style={{
+                    width:'200px',
                     flex: 1,
                     padding: '12px',
                     borderRadius: '8px',

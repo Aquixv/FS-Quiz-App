@@ -35,10 +35,5 @@ align-items: center;
 .join-container{
 width: 100% !important;
 }
-.quiz-code-input {
-    width: 100%;
-    max-width: 400px; 
-    box-sizing: border-box;
-    padding: 12px;
-}
+
 }
