@@ -76,7 +76,7 @@ const handleJoinQuiz = async () => {
 
       <div className='settings-group'>
         <p>Select Category</p> 
-        <select name="category" className="category-select quiz-select-dark" onChange={handleChange}>
+        <select name="category" className="category-select" onChange={handleChange}>
           {categories.map((cat) => (
             <option key={cat.id} value={cat.id}>{cat.name}</option>
           ))}
@@ -99,6 +99,7 @@ const handleJoinQuiz = async () => {
             <input 
                 type="text" 
                 placeholder="Enter 6-digit code..." 
+                className='quiz-code-input'
                 value={joinCode}
                 onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
                 style={{
