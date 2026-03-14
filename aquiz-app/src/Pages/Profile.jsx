@@ -54,7 +54,7 @@ if (!localUser) {
 
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/users/${localUser.id}`)
+        const response = await fetch(`${API_BASE_URL}/api/users/${localUser.id || userData.id}`)
         const data = await response.json();
         setUserData(data);
       } catch (err) {
@@ -94,7 +94,7 @@ if (!localUser) {
 
         <div className="grid grid-cols-2 gap-4 mb-8">
           <div className="glass-card p-6 rounded-3xl text-center border border-white/5">
-            <span className="text-neon-yellow text-3xl font-black block">{userData.totalPoints.toLocaleString()}</span>
+            <span className="text-neon-yellow text-3xl font-black block">{userData?.totalPoints?.toLocaleString() || '0'}</span>
             <span className="text-[10px] uppercase font-bold tracking-widest opacity-50">Total Points</span>
           </div>
           <div className="glass-card p-6 rounded-3xl text-center border border-white/5">
