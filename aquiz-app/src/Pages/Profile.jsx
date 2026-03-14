@@ -54,7 +54,7 @@ if (!localUser) {
 
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/users/${localUser.id || userData.id}`)
+        const response = await fetch(`${API_BASE_URL}/api/users/${localUser.id}`)
         const data = await response.json();
         setUserData(data);
       } catch (err) {
