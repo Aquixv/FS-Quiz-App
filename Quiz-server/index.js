@@ -137,7 +137,20 @@ app.get('/api/my-quizzes/leaderboard/:userId', async (req, res) => {
         res.status(500).json({ error: "Error fetching your quiz leaders" });
     }
 });
+app.post('/api/scores', async (req, res) => {
+    const { userId, score, quizId } = req.body;
+    try {
+        const newScore = new Score({ userId, score, quizId });
+        await newScore.save();
+        await User.findByIdAndUpdate(userId, {
+            $inc: { totalPoints: score }
+        });
 
+        res.status(201).json({ message: "Score saved and points updated!" });
+    } catch (err) {
+        res.status(500).json({ error: "Score saving failed" });
+    }
+});
 app.get('/api/users/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -155,6 +168,24 @@ app.get('/api/scores/user/:userId', async (req, res) => {
         res.json(history);
     } catch (err) {
         res.status(500).json({ error: "Failed to fetch history" });
+    }
+});
+
+app.get('/api/my-quizzes/:userId', async (req, res) => {
+    try {
+        const quizzes = await Quiz.find({ creatorId: req.params.userId });
+        res.json(quizzes);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch your quizzes" });
+    }
+});
+
+app.delete('/api/quizzes/:id', async (req, res) => {
+    try {
+        await Quiz.findByIdAndDelete(req.params.id);
+        res.json({ message: "Quiz deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ error: "Delete failed" });
     }
 });
 app.get('/health', (req, res) => {

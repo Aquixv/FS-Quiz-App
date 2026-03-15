@@ -109,28 +109,18 @@ if (!localUser) {
   <div className="space-y-3">
     {history.length > 0 ? (
       history.map((item, i) => (
-        <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5">
-          <div>
-            <p className="font-bold text-white text-sm">
-                {item.quizId?.quizTitle || "General Category Quiz"}
-            </p>
-            <p className="text-[10px] text-lavender-light/40">
-                {new Date(item.createdAt).toLocaleDateString()}
-            </p>
-          </div>
-          <div className="text-right">
-            <span className="text-neon-yellow font-black">{item.score}</span>
-            <span className="text-[10px] text-white/30 ml-1">pts</span>
-          </div>
-        </div>
-      ))
+  <div key={i}>
+    <p>{item.quizId?.quizTitle || "External Quiz"}</p> 
+    <p>{item.score} pts</p>
+  </div>
+))
     ) : (
       <p className="text-center py-6 text-sm text-lavender-light/20 italic">No games played yet. Go test yourself!</p>
     )}
   </div>
 </div>
           <button 
-            onClick={() => navigate('/create')}
+            onClick={() => navigate('/myquizzes')}
             className="w-full flex items-center justify-between p-5 rounded-2xl bg-white/5 border border-glass-border hover:bg-white/10 transition-all"
           >
             <div className="flex items-center gap-4">
