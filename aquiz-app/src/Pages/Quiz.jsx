@@ -182,7 +182,7 @@ useEffect(() => {
                     <h2 style={{ color: feedback.color }}>{feedback.msg}</h2>
                     <h3>You scored {score} out of {data.length}</h3>
                     <div className='result-buttons'>
-                    <button onClick={reset}>Retake?</button>
+                    {/* <button onClick={reset}>Retake?</button> */}
                     <button onClick={() => navigate('/setup')}>New Quiz?</button>
                     <button onClick={() => navigate('/')}>Home</button>
                     </div>

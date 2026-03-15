@@ -127,7 +127,7 @@ const handleJoinQuiz = async () => {
         </div>
     )}
 </div>
-        <button className='start-btn' onClick={() => navigate('/create')}>Create Your Quiz </button>
+        {/* <button className='start-btn' onClick={() => navigate('/create')}>Create Your Quiz </button> */}
         <button className='start-btn' onClick={() => navigate('/')}>Home</button>
       </div>
     </div>
