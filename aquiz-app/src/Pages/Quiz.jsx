@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import API_BASE_URL from '../config'; 
+import API_BASE_URL from './config'; 
 import './Quiz.css';
 
 // Asset Imports
@@ -48,14 +48,15 @@ const Quiz = ({ category, amount, difficulty }) => {
 
     const submitFinalScore = async () => {
         const user = JSON.parse(localStorage.getItem('user'));
-        
-        const payload = {
-            userId: user?.id || user?._id || null,
-            score: score * 10, 
-            quizId: location.state?.quizId || null,
-            categoryId: category || '9',
-            totalQuestions: data.length
-        };
+    
+    const payload = {
+        userId: user?.id || user?._id || null, 
+        username: user?.username || "Guest", // Add this line!
+        score: score * 10, 
+        quizId: location.state?.quizId || null,
+        categoryId: category || '9',
+        totalQuestions: data.length
+    };
 
         try {
             await fetch(`${API_BASE_URL}/api/scores`, {
@@ -69,7 +70,6 @@ const Quiz = ({ category, amount, difficulty }) => {
         }
     };
 
-    // --- Fetching API Data ---
     useEffect(() => {
         if (data.length > 0) {
             setLoading(false);
@@ -155,7 +155,7 @@ const Quiz = ({ category, amount, difficulty }) => {
         const percentage = (score / data.length) * 100;
         if (percentage === 100) return { msg: "Ts won't take you to heaven btw", color: "#00d397", gif: doesheknow };
         if (percentage >= 80) return { msg: "You're not him", color: "#ff4a4a", gif: Regret };
-        if (percentage >= 50) return { msg: "Mid performance", color: "#553f9a", gif: Higuruma };
+        if (percentage >= 50) return { msg: "", color: "#553f9a", gif: Higuruma };
         if (percentage === 0) return { msg: "Did you even read?", color: "#ff4a4a", gif: Hesnotreading };
         return { msg: "Time to Hit the Books... 📚", color: "#ff4a4a", gif: speed };
     };
