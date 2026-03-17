@@ -20,6 +20,14 @@ const CreateQuiz = () => {
     setQuestions(updated);
   };
 
+const user = JSON.parse(localStorage.getItem('user'));
+const quizData = {
+    quizTitle: title,
+    questions: questions,
+    creatorName: user.username,
+    creatorId: user.id || user._id 
+};
+
   const handleInputChange = (index, field, value, subIndex = null) => {
     const updatedQuestions = [...questions];
     if (subIndex !== null) {
@@ -34,10 +42,10 @@ const CreateQuiz = () => {
     e.preventDefault();
     try {
       const response = await fetch(`${API_BASE_URL}/api/quizzes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quizTitle, questions }),
-      });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(quizData)
+});
       const data = await response.json();
       if (response.ok) {
         setGeneratedCode(data.joinCode);

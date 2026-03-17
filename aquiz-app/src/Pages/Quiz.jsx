@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import API_BASE_URL from './config'; 
 import './Quiz.css';
+import confetti from 'canvas-confetti';
 
-// Asset Imports
+
 import Higuruma from '../assets/Higuruma.png';
 import Hesnotreading from '../assets/Not-reading.png';
 import Regret from '../assets/Regret.png';
@@ -14,7 +15,7 @@ const Quiz = ({ category, amount, difficulty }) => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // --- State Initialization ---
+
     const [index, setIndex] = useState(() => {
         const saved = localStorage.getItem('active_quiz');
         return saved ? JSON.parse(saved).index : 0;
@@ -51,7 +52,7 @@ const Quiz = ({ category, amount, difficulty }) => {
     
     const payload = {
         userId: user?.id || user?._id || null, 
-        username: user?.username || "Guest", // Add this line!
+        username: user?.username || "Guest", 
         score: score * 10, 
         quizId: location.state?.quizId || null,
         categoryId: category || '9',
@@ -101,7 +102,6 @@ const Quiz = ({ category, amount, difficulty }) => {
         };
     }, [amount, category, difficulty, data.length]);
 
-    // --- Persistence ---
     useEffect(() => {
         if (data.length > 0 && !result) {
             const quizState = { data, index, score, quizSettings: { amount, category, difficulty } };
@@ -113,7 +113,6 @@ const Quiz = ({ category, amount, difficulty }) => {
         if (result) localStorage.removeItem('active_quiz');
     }, [result]);
 
-    // --- Game Logic ---
     const decodeHTML = (html) => {
         const txt = document.createElement("textarea");
         txt.innerHTML = html;
@@ -153,7 +152,14 @@ const Quiz = ({ category, amount, difficulty }) => {
 
     const getFeedback = () => {
         const percentage = (score / data.length) * 100;
-        if (percentage === 100) return { msg: "Ts won't take you to heaven btw", color: "#00d397", gif: doesheknow };
+        if (percentage === 100) {
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#00d397', '#ffffff', '#553f9a']
+    });
+return { msg: "Ts won't take you to heaven btw", color: "#00d397", gif: doesheknow }};
         if (percentage >= 80) return { msg: "You're not him", color: "#ff4a4a", gif: Regret };
         if (percentage >= 50) return { msg: "", color: "#553f9a", gif: Higuruma };
         if (percentage === 0) return { msg: "Did you even read?", color: "#ff4a4a", gif: Hesnotreading };
