@@ -44,13 +44,15 @@ app.post('/api/signup', async (req, res) => {
 app.post('/api/quizzes', async (req, res) => {
     try {
         const { quizTitle, creatorName, questions, creatorId } = req.body;
+        
         const newQuiz = new Quiz({
             quizTitle,
             creatorName,
-            creatorId,
+            creatorId, 
             joinCode: generateJoinCode(),
             questions
         });
+
         const savedQuiz = await newQuiz.save();
         res.status(201).json(savedQuiz); 
     } catch (err) {

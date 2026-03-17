@@ -22,7 +22,7 @@ const CreateQuiz = () => {
 
 const user = JSON.parse(localStorage.getItem('user'));
 const quizData = {
-    quizTitle: title,
+    quizTitle: quizTitle,
     questions: questions,
     creatorName: user.username,
     creatorId: user.id || user._id 
