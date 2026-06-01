@@ -11,7 +11,7 @@ const Profile = () => {
 
 useEffect(() => {
     if (localUser) {
-        fetch(`${API_BASE_URL}/api/scores/user5/${localUser.id}`)
+        fetch(`${API_BASE_URL}/api/scores/user/${localUser.id}`)
             .then(res => res.json())
             .then(data => setHistory(data));
     }
@@ -54,7 +54,7 @@ if (!localUser) {
 
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/user5/${localUser.id}`)
+        const response = await fetch(`${API_BASE_URL}/api/user/${localUser.id}`)
         const data = await response.json();
         setUserData(data);
       } catch (err) {
