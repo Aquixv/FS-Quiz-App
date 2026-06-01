@@ -3,7 +3,6 @@ const app = express();
 const cors = require('cors');
 require('dotenv').config(); 
 require('./connection');
-
 const Quiz = require('./models/Quiz');
 const Score = require('./models/Score');
 const User = require('./models/User');
