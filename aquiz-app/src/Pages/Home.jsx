@@ -14,7 +14,7 @@ const [topUsers, setTopUsers] = useState([]);
 useEffect(() => {
   const fetchTopScorers = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/user/leaderboard`);
+      const response = await fetch(`${API_BASE_URL}/api/users/leaderboard`);
       const data = await response.json();
       setTopUsers(data); 
     } catch (err) {
