@@ -38,9 +38,6 @@ useEffect(() => {
       <div className="relative flex h-full w-full flex-col overflow-x-hidden">
         <header className="flex items-center bg-deep-purple/80 backdrop-blur-md p-4 sticky top-0 z-10 border-b border-glass-border">
 
-  <div className="text-electric-violet flex size-10 shrink-0 items-center justify-center rounded-lg bg-electric-violet/10">
-  </div>
-
   <h2 className="text-white text-2xl md:text-4xl font-bold leading-tight tracking-tight flex-1 text-center">
     QuizMaster
   </h2>
