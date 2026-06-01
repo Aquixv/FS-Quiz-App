@@ -9,6 +9,10 @@ const MyQuizzes = () => {
     
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user?.id || user?._id;
+    
+     const copyToClipboard = () => {
+    navigator.clipboard.writeText(generatedCode);
+  };
 
     useEffect(() => {
         if (!userId) {
@@ -70,7 +74,7 @@ const MyQuizzes = () => {
                             <div>
                                 <h3 className="font-bold text-white text-lg">{quiz.quizTitle}</h3>
                                 <p className="text-xs text-lavender-light/40 mt-1">
-                                    CODE: <span className="text-neon-yellow font-mono font-bold tracking-widest uppercase">{quiz.joinCode}</span>
+                                    CODE: <span onClick={copyToClipboard} className="text-neon-yellow font-mono font-bold tracking-widest uppercase">{quiz.joinCode}</span>
                                 </p>
                             </div>
                             <div className="flex gap-2">
