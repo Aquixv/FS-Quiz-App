@@ -6,7 +6,9 @@ import './Profile.css'
 const Profile = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
-  const localUser = JSON.parse(localStorage.getItem('user'));
+  const userString = localStorage.getItem('user');
+  const localUser = userString ? JSON.parse(userString) : null;
+  const userId = localUser?.id || localUser?._id;
   const [history, setHistory] = useState([]);
 
 useEffect(() => {
