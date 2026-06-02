@@ -13,7 +13,7 @@ const Profile = () => {
 
 useEffect(() => {
     if (localUser) {
-        fetch(`${API_BASE_URL}/api/scores/users/${localUser.id}`)
+        fetch(`${API_BASE_URL}/api/scores/user/${localUser.id}`)
             .then(res => res.json())
             .then(data => setHistory(data));
     }
